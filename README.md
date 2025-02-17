@@ -69,6 +69,38 @@ gcloud functions deploy manageInstancesOnBudget \
 - Lists **all stopped instances**
 - Calls **Google Compute API** to restart them
 
+## 🔑 IAM Permissions Needed
+
+For the **service account** (`budget-automation-sa@YOUR_PROJECT_ID.iam.gserviceaccount.com`), assign these **IAM roles**:
+
+| Role                             | Purpose                              |
+| -------------------------------- | ------------------------------------ |
+| `roles/compute.instanceAdmin.v1` | Manage Compute Engine instances      |
+| `roles/pubsub.subscriber`        | Listen to budget alerts from Pub/Sub |
+| `roles/cloudfunctions.invoker`   | Allow invoking the Cloud Function    |
+
+✅ Assign roles using:
+
+```sh
+gcloud projects add-iam-policy-binding YOUR_PROJECT_ID \
+    --member="serviceAccount:budget-automation-sa@YOUR_PROJECT_ID.iam.gserviceaccount.com" \
+    --role="roles/compute.instanceAdmin.v1"
+```
+
+## 🛠️ Debugging
+
+Check logs in **Google Cloud Console**:
+
+```sh
+gcloud functions logs read manageInstancesOnBudget
+```
+
+If Pub/Sub isn't triggering:
+
+```sh
+gcloud pubsub subscriptions pull projects/YOUR_PROJECT_ID/subscriptions/budget-alerts-sub --auto-ack
+```
+
 ## 📜 Code Structure
 
 ```
@@ -77,3 +109,9 @@ gcloud functions deploy manageInstancesOnBudget \
 ┣ 📜 package.json # Dependencies & scripts
 ┣ 📜 README.md    # Documentation
 ```
+
+## ✅ Conclusion
+
+- This function **automates Google Cloud instance management** based on **budget alerts**
+- Supports **any billing account** as long as it publishes to the `budget-alerts` Pub/Sub topic
+- Fully **configurable** and **easy to deploy**
