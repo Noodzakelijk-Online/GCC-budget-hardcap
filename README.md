@@ -147,16 +147,6 @@ gcloud pubsub subscriptions pull projects/YOUR_PROJECT_ID/subscriptions/budget-a
 ┣ 📜 README.md    # Documentation
 ```
 
-## 📊 Budget Status Visualization
-
-### When Budget Exceeds Limit:
-
-<img src="Budget-exceeded.png" alt="Budget exceeded visualization showing stopped instances and alert notifications" />
-
-### When Budget is Within Limit:
-
-<img src="Budget-within.png" alt="Normal budget status visualization showing running instances" />
-
 ## ✅ Conclusion
 
 - This function **automates Google Cloud instance management** based on **budget alerts**
